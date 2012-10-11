@@ -1,0 +1,90 @@
+/*Website properties */
+	html		{
+			width:100%;
+			height:100%;
+			font: 70% "Trebuchet MS", sans-serif;
+			background-color:#000000;
+			color:#FFFFFF;
+			}
+	body	{
+			height: 95%;
+			}
+
+	#left, #right {
+			width: 47%; 
+			margin:5px; 
+			padding: 1em;
+			background: #303030;			
+}
+	#left {   
+			float:left; 
+}
+	#right {   float:right; 
+			}
+	.content {
+			min-height: 100%;
+			height: auto;
+			height: 100%;
+			margin: 0 auto -2%;
+			}
+    .header {
+			text-align:center;
+			height:25px;
+            }
+	.clearfooter {
+			height: 2%;
+			clear: both;
+			}
+	.footer, .push {
+			text-align:center;
+			height: 2%;
+			position: relative;
+			}
+
+/*Datatables behavior*/
+
+	tr.odd td.sorting_1 {
+		background-color: #464646;
+	}	
+
+	tr.even td.sorting_1 {
+		background-color: #3a3a3a;
+	}
+	tr.odd{
+			background-color:#202020;
+			}
+	tr.even{
+			background-color:#303030 
+			}
+	.dataTables_filter {
+		width: 100%;
+		text-align: center;
+}
+	.dataTables_paginate {
+		float: left;
+		text-align: left;
+}
+	.dataTables_info {
+		width: 30;
+		float: right;
+		text-align: right;
+}
+
+/*JQuery UI icon behavior */
+	.ui-tabs-nav .ui-icon {
+			display: inline-block;
+			}
+	.ui-button .ui-icon {
+			display: inline-block;
+			}
+
+/*JQueyr UI tabs behavior */
+	#indextabs.ui-tabs {
+			height : 90%
+			}
+	#configtabs.ui-tabs {
+			height : 550px
+			}
+	#tank_freeze_wrapper {
+			height : 500px
+			}
