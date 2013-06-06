@@ -29,8 +29,7 @@ function GetClanData($clan_id, $data_type = 'members', $url = 'worldoftanks.eu')
     return $clan_data['request_data']['items'];
 }
 
-function GetPlayerData($player_id, $url = 'worldoftanks.eu') {
-
+function GetPlayerData($player_id, $url = 'api.worldoftanks.eu') {
     $tempfile = fopen("http://" . $url . "/uc/accounts/" . $player_id . "/api/1.5/?source_token=Intellect_Soft-WoT_Mobile-unofficial_stats", "r");
 
     $player = stream_get_contents($tempfile);
