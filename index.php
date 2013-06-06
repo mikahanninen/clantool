@@ -121,7 +121,7 @@ $row = mysql_fetch_assoc($received);
  </div>
 </div>
 <div class="push"></div>
-<div class="footer">Brought by the community. For the community. So that we can all benefit !</div>
+<div class="footer"></div>
 
 </body>
 </html>

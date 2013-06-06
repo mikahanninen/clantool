@@ -2,6 +2,7 @@
 
 // ***** Request data from multiple external sources ***** //
 
+
 function GetClanData($clan_id, $data_type = 'members', $url = 'worldoftanks.eu') {
 
     $tempfile = fsockopen($url, 80, $errno, $errstr, 30);
@@ -16,21 +17,23 @@ function GetClanData($clan_id, $data_type = 'members', $url = 'worldoftanks.eu')
         $request.= "Connection: Keep-Alive\r\n";
         $request.= "\r\n";
 
+        // CTLogging("GetClanData: ".$request);
         fwrite($tempfile, $request);
 
         while (!feof($tempfile)) {
             $clan = fgets($tempfile);
         }
-
         fclose($tempfile);
     }
     $clan_data = (json_decode($clan, true));
-    
     return $clan_data['request_data']['items'];
 }
 
 function GetPlayerData($player_id, $url = 'api.worldoftanks.eu') {
-    $tempfile = fopen("http://" . $url . "/uc/accounts/" . $player_id . "/api/1.5/?source_token=Intellect_Soft-WoT_Mobile-unofficial_stats", "r");
+
+    $filepath = "http://" . $url . "/uc/accounts/" . $player_id . "/api/1.8/?source_token=Intellect_Soft-WoT_Mobile-unofficial_stats";
+    // CTLogging("GetPlayerData: ". $filepath);
+    $tempfile = fopen($filepath, "r");
 
     $player = stream_get_contents($tempfile);
     
@@ -326,7 +329,7 @@ function MemberRow($player){
         $left_on = '';
     }
         
-    $proper_role = $roles[$player['player_role']];
+    $proper_role = $player['player_role'];
     $battle_log = QueryMySQL('SELECT match_time, alive, frags, match_result FROM battle_log WHERE player_name = "'. $player['player_name'].'" ORDER BY match_time DESC');
     while($row = mysql_fetch_array($battle_log,MYSQL_ASSOC)) {
         $battles[] = $row;
@@ -437,13 +440,14 @@ function InsertPlayer($clan_id, $clan_tag, $player_id, $player_name, $player_rol
 }
 
 function InsertPlayers($bulk_data) {
-    
+    // CTLogging("InsertPlayers (bulk_data): ".print_r($bulk_data, true));
     $request = "INSERT INTO player_data
                     (last_update, clan_id, clan_tag, player_id, player_name, player_role, member_date) 
                 VALUES " . implode(',', $bulk_data) . "
 				ON DUPLICATE KEY 
-                    UPDATE last_update = VALUES(last_update)";
-    
+                    UPDATE last_update = VALUES(last_update), player_role = VALUES(player_role)";
+
+    // CTLogging("InsertPlayers: (request): ".$request);
     QueryMySQL($request);
 }
 
@@ -522,7 +526,7 @@ function ShowReplay(){
 
 function QueryMySQL($query) {
     
-    $connected = mysql_connect("localhost", "cwinfo", "cwinfo");  // <--- Insert credentials for SQL Connection here !
+    $connected = mysql_connect("localhost", "root", "root");  // <--- Insert credentials for SQL Connection here !
 	// $connected = mysql_connect("SQL-Server", "SQL-Username", "SQL-Password");
 
     if (!$connected) die;
@@ -534,6 +538,14 @@ function QueryMySQL($query) {
     mysql_close($connected);
     
     return $result;
+}
+function CTLogging($text)
+{
+  // open log file
+  $filename = "clantool.log";
+  $fh = fopen($filename, "a") or die("Could not open log file.");
+  fwrite($fh, $_SERVER['PHP_SELF']." ".date("d-m-Y, H:i")." - $text\n") or die("Could not write file!");
+  fclose($fh);
 }
 /* Example of SQL connection with proper error management <-- still needs to be implementd
 
