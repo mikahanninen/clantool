@@ -19,14 +19,8 @@
 </html>
 <?php
 
-$con = mysql_connect("localhost", "root", "root");
-if (!$con) {
-    die('Could not connect: ' . mysql_error());
-}
-
-mysql_select_db("clanwar_data", $con);
-
-$result = mysql_query("SELECT * FROM tool_config");
+include_once("functions.php");
+$result = QueryMySQL("SELECT * FROM tool_config");
 
 echo '<table id= "tank_freeze">';
 echo '<thead>';
