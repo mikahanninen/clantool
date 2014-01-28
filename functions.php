@@ -529,11 +529,11 @@ function QueryMySQL($query) {
     $connected = mysql_connect("localhost", "root", "root");  // <--- Insert credentials for SQL Connection here !
 	// $connected = mysql_connect("SQL-Server", "SQL-Username", "SQL-Password");
 
-    if (!$connected) die;
+    if (!$connected) showerror();
 
     mysql_select_db("clanwar_data", $connected);
     
-    $result = mysql_query($query) or die(mysql_error());
+    $result = mysql_query($query) or showerror();
     
     mysql_close($connected);
     
@@ -546,6 +546,10 @@ function CTLogging($text)
   $fh = fopen($filename, "a") or die("Could not open log file.");
   fwrite($fh, $_SERVER['PHP_SELF']." ".date("d-m-Y, H:i")." - $text\n") or die("Could not write file!");
   fclose($fh);
+}
+function showerror(  )
+{
+  die("Error " . mysql_errno(  ) . " : " . mysql_error(  ));
 }
 /* Example of SQL connection with proper error management <-- still needs to be implementd
 
